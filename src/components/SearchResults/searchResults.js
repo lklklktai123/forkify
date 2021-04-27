@@ -1,7 +1,7 @@
 const searchResults = () => {
   return (
-    <div class="search-results">
-      <ul class="results">
+    <div className="search-results">
+      <ul className="results">
         {/* <li class="preview">
       <a class="preview__link preview__link--active" href="#23456">
         <figure class="preview__fig">
@@ -21,7 +21,7 @@ const searchResults = () => {
       */}
       </ul>
 
-      <div class="pagination">
+      <div className="pagination">
         {/* <button class="btn--inline pagination__btn--prev">
       <svg class="search__icon">
         <use href="src/img/icons.svg#icon-arrow-left"></use>
@@ -36,9 +36,9 @@ const searchResults = () => {
     </button>  */}
       </div>
 
-      <p class="copyright">
+      <p className="copyright">
         &copy; Copyright by
-        <a class="twitter-link" href="https://twitter.com/jonasschmedtman">
+        <a className="twitter-link" href="https://twitter.com/jonasschmedtman">
           Jonas Schmedtmann
         </a>
         . Use for learning or your portfolio. Don't use to teach. Don't claim as

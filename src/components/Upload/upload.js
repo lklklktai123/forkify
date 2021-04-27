@@ -1,10 +1,10 @@
 const upload = () => {
   return (
-    <div class="add-recipe-window hidden">
-      <button class="btn--close-modal">&times;</button>
-      <form class="upload">
-        <div class="upload__column">
-          <h3 class="upload__heading">Recipe data</h3>
+    <div className="add-recipe-window hidden">
+      <button className="btn--close-modal">&times;</button>
+      <form className="upload">
+        <div className="upload__column">
+          <h3 className="upload__heading">Recipe data</h3>
           <label>Title</label>
           <input value="TEST" required name="title" type="text" />
           <label>URL</label>
@@ -19,8 +19,8 @@ const upload = () => {
           <input value="23" required name="servings" type="number" />
         </div>
 
-        <div class="upload__column">
-          <h3 class="upload__heading">Ingredients</h3>
+        <div className="upload__column">
+          <h3 className="upload__heading">Ingredients</h3>
           <label>Ingredient 1</label>
           <input
             value="0.5,kg,Rice"
@@ -63,7 +63,7 @@ const upload = () => {
           />
         </div>
 
-        <button class="btn upload__btn">
+        <button className="btn upload__btn">
           <svg>
             <use href="src/img/icons.svg#icon-upload-cloud"></use>
           </svg>

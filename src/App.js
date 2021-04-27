@@ -3,6 +3,7 @@ import Header from "./components/Header/header";
 import Recipe from "./components/Recipe/recipe";
 import SearchResults from "./components/SearchResults/searchResults";
 import Upload from "./components/Upload/upload";
+import RecipeContainer from "./containers/Controller/RecipeContainer";
 const App = () => {
   return (
     <React.Fragment>
@@ -11,8 +12,9 @@ const App = () => {
         <SearchResults />
         <Recipe />
       </div>
-      <div class="overlay hidden"></div>
+      <div className="overlay hidden"></div>
       <Upload />
+      <RecipeContainer />
     </React.Fragment>
   );
 };
