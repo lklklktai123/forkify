@@ -1,7 +1,15 @@
 import images from "../Layout/exportImage";
 import { IoIosSearch } from "react-icons/io";
 import { BiSmile, BiMessageEdit, BiBookmark } from "react-icons/bi";
-const header = () => {
+import { connect } from "react-redux";
+import * as actions from "../../store/actions/index";
+import { useState, useEffect } from "react";
+const Header = (props) => {
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    props.onSearchResultsRecipe(search);
+  }, [search]);
   return (
     <header className="header">
       <img src={images.logo} alt="Logo" className="header__logo" />
@@ -10,6 +18,8 @@ const header = () => {
           type="text"
           className="search__field"
           placeholder="Search over 1,000,000 recipes..."
+          onChange={(event) => setSearch(event.target.value)}
+          value={search}
         />
         <button className="btn search__btn">
           <IoIosSearch className="search__icon" />
@@ -60,4 +70,10 @@ const header = () => {
     </header>
   );
 };
-export default header;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSearchResultsRecipe: (search) =>
+      dispatch(actions.searchResultsRecipe(search)),
+  };
+};
+export default connect(null, mapDispatchToProps)(Header);

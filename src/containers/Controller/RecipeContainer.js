@@ -6,7 +6,6 @@ import {
   BiMinusCircle,
   BiPlusCircle,
   BiBookmarkPlus,
-  BiCheck,
   BiSearchAlt2,
   BiLoader,
 } from "react-icons/bi";
@@ -14,10 +13,12 @@ import Ingredient from "../../components/Recipe/Ingredient/ingredient";
 
 const RecipeContainer = () => {
   const [dataRecipe, setDataRecipe] = useState(null);
+  const [id, setId] = useState(null);
 
   useEffect(() => {
+    if (!id) return;
     axios
-      .get("/recipes/5ed6604591c37cdc054bcd09")
+      .get(`/recipes/${id}`)
       .then((response) => {
         let { recipe } = response.data.data;
         setDataRecipe({
@@ -35,6 +36,7 @@ const RecipeContainer = () => {
   }, []);
 
   let loadRecipe = null;
+  if (!id) return <div></div>;
   loadRecipe = !dataRecipe ? (
     <div class="spinner">
       <BiLoader />
@@ -106,11 +108,7 @@ const RecipeContainer = () => {
           <span className="recipe__publisher">{dataRecipe.publisher}</span>.
           Please check out directions at their website.
         </p>
-        <a
-          className="btn--small recipe__btn"
-          href={dataRecipe.sourceUrl}
-          target="_blank"
-        >
+        <a className="btn--small recipe__btn" href={dataRecipe.sourceUrl}>
           <span>Directions</span>
           <BiSearchAlt2 className="search__icon" />
         </a>
