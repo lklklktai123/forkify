@@ -1,5 +1,5 @@
 import { BiSmile } from "react-icons/bi";
-import RecipeContainer from "../../containers/Controller/RecipeContainer";
+import RecipeContainer from "../../containers/RecipeContainer/RecipeContainer";
 
 const recipe = () => {
   return (

@@ -1,49 +1,8 @@
-import React, { useEffect, useState } from "react";
-import axios from "../../axios";
-import { IoIosClock } from "react-icons/io";
-import {
-  BiUser,
-  BiMinusCircle,
-  BiPlusCircle,
-  BiBookmarkPlus,
-  BiSearchAlt2,
-  BiLoader,
-} from "react-icons/bi";
-import Ingredient from "../../components/Recipe/Ingredient/ingredient";
-
-const RecipeContainer = () => {
-  const [dataRecipe, setDataRecipe] = useState(null);
-  const [id, setId] = useState(null);
-
-  useEffect(() => {
-    if (!id) return;
-    axios
-      .get(`/recipes/${id}`)
-      .then((response) => {
-        let { recipe } = response.data.data;
-        setDataRecipe({
-          id: recipe.id,
-          title: recipe.title,
-          publisher: recipe.publisher,
-          sourceUrl: recipe.source_url,
-          image: recipe.image_url,
-          servings: recipe.servings,
-          cookingTime: recipe.cooking_time,
-          ingredients: recipe.ingredients,
-        });
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
-  let loadRecipe = null;
-  if (!id) return <div></div>;
-  loadRecipe = !dataRecipe ? (
-    <div class="spinner">
-      <BiLoader />
-    </div>
-  ) : (
-    <React.Fragment>
-      <figure class="recipe__fig">
+import React from "react";
+const DetailsRecipe = (props) => {
+  return <span>idddddddddddddddddddd</span>;
+  {
+    /* <figure class="recipe__fig">
         <img
           src={dataRecipe.image}
           alt={dataRecipe.title}
@@ -112,13 +71,7 @@ const RecipeContainer = () => {
           <span>Directions</span>
           <BiSearchAlt2 className="search__icon" />
         </a>
-      </div>
-    </React.Fragment>
-  );
-  return loadRecipe;
+      </div> */
+  }
 };
-
-export default RecipeContainer;
-// https://forkify-api.herokuapp.com/api/v2
-
-///////////////////////////////////////
+export default DetailsRecipe;

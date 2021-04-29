@@ -21,8 +21,23 @@ export const searchResultsRecipe = (search) => {
   return (dispatch) => {
     dispatch(fetchRecipeStart());
     axios
-      .get(`https://forkify-api.herokuapp.com/api/search?q=${search}`)
+      .get(`search?q=${search}`)
       .then((response) => {
+        dispatch(fetchRecipeSuccess(response.data.recipes));
+      })
+      .catch((err) => {
+        dispatch(fetchRecipeFail(err));
+      });
+  };
+};
+
+export const getRecipeWithId = (id) => {
+  return (dispatch) => {
+    dispatch(fetchRecipeStart());
+    axios
+      .get(`get?rId=${id}`)
+      .then((response) => {
+        console.log(response);
         dispatch(fetchRecipeSuccess(response.data.recipes));
       })
       .catch((err) => {
