@@ -1,1 +1,3 @@
-export { searchResultsRecipe, getRecipeWithId } from "./recipe";
+export { searchResultsRecipe } from './resultRecipe';
+
+export { getRecipeWithId } from './recipe';

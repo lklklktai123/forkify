@@ -1,10 +1,8 @@
-import React from "react";
-import Header from "./components/Header/header";
-import Recipe from "./components/Recipe/recipe";
-import SearchResults from "./components/SearchResults/searchResults";
-import Upload from "./components/Upload/upload";
-import RecipeContainer from "./containers/RecipeContainer/RecipeContainer";
-import { Route, Router, Switch } from "react-router-dom";
+import React from 'react';
+import Header from './components/Header/header';
+import Recipe from './components/Recipe/recipe';
+import SearchResults from './components/SearchResults/searchResults';
+import Upload from './components/Upload/upload';
 
 const App = () => {
   return (

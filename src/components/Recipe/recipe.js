@@ -1,10 +1,12 @@
-import { BiSmile } from "react-icons/bi";
-import RecipeContainer from "../../containers/RecipeContainer/RecipeContainer";
-
+import { BiSmile } from 'react-icons/bi';
+import RecipeContainer from '../../containers/RecipeContainer/RecipeContainer';
+import { Route, Switch } from 'react-router-dom';
 const recipe = () => {
   return (
     <div className="recipe">
-      <RecipeContainer />
+      <Switch>
+        <Route path="/recipe-container/:idRecipe" component={RecipeContainer} />
+      </Switch>
       <div className="message">
         <div>
           <BiSmile className="recipe__icon-smile" />
