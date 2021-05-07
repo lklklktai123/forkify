@@ -3,19 +3,27 @@ import { updateObject } from '../../shared/utility';
 const initialState = {
   recipe: null,
   loading: false,
+  error: false,
+  messageError: '',
 };
 const fetchRecipeStart = state => {
   return updateObject(state, { loading: true });
 };
 
-const fetchRecipeFail = state => {
-  return updateObject(state, { recipe: null, loading: false });
+const fetchRecipeFail = (state, action) => {
+  return updateObject(state, {
+    recipe: null,
+    loading: false,
+    error: true,
+    messageError: action.messageError,
+  });
 };
 
 const fetchRecipeSuccess = (state, action) => {
   return updateObject(state, {
     recipe: action.recipe,
     loading: false,
+    error: false,
   });
 };
 const reducer = (state = initialState, action) => {
@@ -23,7 +31,7 @@ const reducer = (state = initialState, action) => {
     case actionType.FETCH_RECIPE_START:
       return fetchRecipeStart(state);
     case actionType.FETCH_RECIPE_FAIL:
-      return fetchRecipeFail(state);
+      return fetchRecipeFail(state, action);
     case actionType.FETCH_RECIPE_SUCCESS:
       return fetchRecipeSuccess(state, action);
     default:

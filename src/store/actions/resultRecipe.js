@@ -8,7 +8,7 @@ export const fetchResultRecipeStart = () => {
 export const fetchResultRecipeFail = error => {
   return {
     type: actionTypes.FETCH_RESULT_RECIPE_FAIL,
-    error: error,
+    messageError: error,
   };
 };
 export const fetchResultRecipeSuccess = recipeData => {
@@ -26,6 +26,7 @@ export const searchResultsRecipe = search => {
         dispatch(fetchResultRecipeSuccess(response.data.data.recipes));
       })
       .catch(err => {
+        console.log(err.message);
         dispatch(fetchResultRecipeFail(err));
       });
   };

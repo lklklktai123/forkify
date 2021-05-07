@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { URL } from './utilities/config';
 
 const instance = axios.create({
-  baseURL: 'https://forkify-api.herokuapp.com/api/v2/',
+  baseURL: URL,
 });
 
 export default instance;

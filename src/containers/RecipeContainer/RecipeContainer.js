@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { IoIosClock } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
 import * as actions from '../../store/actions/index';
-
 import {
   BiUser,
   BiMinusCircle,
@@ -13,6 +12,7 @@ import {
 } from 'react-icons/bi';
 import Ingredient from '../../components/Recipe/Ingredient/ingredient';
 import { connect } from 'react-redux';
+import Error from '../../components/Layout/Error/Error';
 
 const RecipeContainer = props => {
   // const [id, setId] = useState(null);
@@ -31,6 +31,7 @@ const RecipeContainer = props => {
     </div>
   );
   if (!idRecipe) return <div></div>;
+  if (props.error) loadRecipe = <Error message={props.messageError} />;
   if (props.dataRecipe) {
     loadRecipe = (
       <React.Fragment>
@@ -116,7 +117,11 @@ const RecipeContainer = props => {
   return loadRecipe;
 };
 const mapStateToProps = state => {
-  return { dataRecipe: state.recipe.recipe };
+  return {
+    dataRecipe: state.recipe.recipe,
+    error: state.recipe.error,
+    messageError: state.recipe.messageError,
+  };
 };
 const mapDispatchToProps = dispatch => {
   return {

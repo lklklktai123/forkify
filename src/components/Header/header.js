@@ -9,12 +9,15 @@ const Header = props => {
   const { onSearchResultsRecipe } = props;
 
   useEffect(() => {
-    onSearchResultsRecipe(search);
+    const timer = setTimeout(function () {
+      onSearchResultsRecipe(search);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, [search, onSearchResultsRecipe]);
   return (
     <header className="header">
       <img src={images.logo} alt="Logo" className="header__logo" />
-      <form className="search">
+      <div className="search">
         <input
           type="text"
           className="search__field"
@@ -22,11 +25,14 @@ const Header = props => {
           onChange={event => setSearch(event.target.value)}
           value={search}
         />
-        <button className="btn search__btn">
+        <button
+          className="btn search__btn"
+          //onClick={onSearchResultsRecipe(search)}
+        >
           <IoIosSearch className="search__icon" />
           <span>Search</span>
         </button>
-      </form>
+      </div>
 
       <nav className="nav">
         <ul className="nav__list">
