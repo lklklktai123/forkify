@@ -32,6 +32,12 @@ export const searchResultsRecipe = search => {
   };
 };
 
+export const setCurrentPage = numPage => {
+  return {
+    type: actionTypes.SET_CURRENT_PAGE,
+    currentPage: numPage,
+  };
+};
 // export const getRecipeWithId = (id) => {
 //   return (dispatch) => {
 //     dispatch(fetchRecipeStart());

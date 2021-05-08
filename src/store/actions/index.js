@@ -1,3 +1,3 @@
-export { searchResultsRecipe } from './resultRecipe';
+export { searchResultsRecipe, setCurrentPage } from './resultRecipe';
 
 export { getRecipeWithId } from './recipe';

@@ -1,24 +1,12 @@
-import Results from "./results/results";
+import Pagination from '../pagination/Pagination';
+import Results from './results/results';
 
-const searchResults = (props) => {
+const searchResults = props => {
   return (
     <div className="search-results">
       <Results />
 
-      <div className="pagination">
-        {/* <button class="btn--inline pagination__btn--prev">
-      <svg class="search__icon">
-        <use href="src/img/icons.svg#icon-arrow-left"></use>
-      </svg>
-      <span>Page 1</span>
-    </button>
-    <button class="btn--inline pagination__btn--next">
-      <span>Page 3</span>
-      <svg class="search__icon">
-        <use href="src/img/icons.svg#icon-arrow-right"></use>
-      </svg>
-    </button>  */}
-      </div>
+      <Pagination />
 
       <p className="copyright">
         &copy; Copyright by

@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BiUser } from 'react-icons/bi';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { RES_PER_PAGE } from '../../../utilities/config';
 
-const results = props => {
+const Results = props => {
+  const getSearchResultPasge = (page = props.currentPage) => {
+    const start = (page - 1) * RES_PER_PAGE;
+    const end = page * RES_PER_PAGE;
+    return props.rec.slice(start, end);
+  };
   let showRecipe = 'Cannot find !!!';
-  if (props.rec.length)
-    showRecipe = props.rec.map(rec => (
+  if (getSearchResultPasge().length)
+    showRecipe = getSearchResultPasge().map(rec => (
       <ul className="results" key={rec.id}>
         <li className="preview">
           <Link
@@ -30,7 +36,10 @@ const results = props => {
   return <React.Fragment>{showRecipe}</React.Fragment>;
 };
 const mapStateToProps = state => {
-  return { rec: state.resultRecipe.resultRecipes };
+  return {
+    rec: state.resultRecipe.resultRecipes,
+    currentPage: state.resultRecipe.currentPage,
+  };
 };
 
-export default connect(mapStateToProps, null)(results);
+export default connect(mapStateToProps, null)(Results);
