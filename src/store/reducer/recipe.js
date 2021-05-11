@@ -26,6 +26,17 @@ const fetchRecipeSuccess = (state, action) => {
     error: false,
   });
 };
+const updateServings = (state, action) => {
+  const newServings = action.newServings;
+  const newRecipe = { ...state.recipe };
+  const newIngredients = [...state.recipe.ingredients].map(ing => {
+    ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
+    return ing;
+  });
+  newRecipe.ingredients = newIngredients;
+  newRecipe.servings = newServings;
+  return updateObject(state, { recipe: newRecipe });
+};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.FETCH_RECIPE_START:
@@ -34,6 +45,8 @@ const reducer = (state = initialState, action) => {
       return fetchRecipeFail(state, action);
     case actionType.FETCH_RECIPE_SUCCESS:
       return fetchRecipeSuccess(state, action);
+    case actionType.LOAD_UPDATE_SERVINGS:
+      return updateServings(state, action);
     default:
       return state;
   }

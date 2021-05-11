@@ -15,8 +15,6 @@ import { connect } from 'react-redux';
 import Error from '../../components/Layout/Error/Error';
 
 const RecipeContainer = props => {
-  // const [id, setId] = useState(null);
-  // const [recipe, setRecipe] = useState(null);
   let { idRecipe } = useParams();
   const { onGetRecipeWithId } = props;
 
@@ -25,6 +23,18 @@ const RecipeContainer = props => {
       onGetRecipeWithId(idRecipe);
     }
   }, [idRecipe, onGetRecipeWithId]);
+
+  const increaseServings = () => {
+    props.onUpdateServings(props.dataRecipe.servings + 1);
+  };
+  const decreaseServings = () => {
+    if (props.dataRecipe.servings - 1) {
+      props.onUpdateServings(props.dataRecipe.servings - 1);
+    } else {
+      alert('Serving cannot <= 0 !!!"');
+      return <Error message="Serving cannot <= 0 !!!" />;
+    }
+  };
   let loadRecipe = (
     <div class="spinner">
       <BiLoader />
@@ -62,10 +72,16 @@ const RecipeContainer = props => {
             <span className="recipe__info-text">servings</span>
 
             <div className="recipe__info-buttons">
-              <button className="btn--tiny btn--increase-servings">
+              <button
+                className="btn--tiny btn--increase-servings"
+                onClick={decreaseServings}
+              >
                 <BiMinusCircle className="" />
               </button>
-              <button className="btn--tiny btn--increase-servings">
+              <button
+                className="btn--tiny btn--increase-servings"
+                onClick={increaseServings}
+              >
                 <BiPlusCircle />
               </button>
             </div>
@@ -126,6 +142,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onGetRecipeWithId: id => dispatch(actions.getRecipeWithId(id)),
+    onUpdateServings: newServings =>
+      dispatch(actions.updateServings(newServings)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeContainer);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BiUser } from 'react-icons/bi';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';

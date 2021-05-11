@@ -34,3 +34,10 @@ export const getRecipeWithId = id => {
       });
   };
 };
+
+export const updateServings = newServings => {
+  return {
+    type: actionTypes.LOAD_UPDATE_SERVINGS,
+    newServings: newServings,
+  };
+};

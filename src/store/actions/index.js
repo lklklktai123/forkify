@@ -1,3 +1,3 @@
 export { searchResultsRecipe, setCurrentPage } from './resultRecipe';
 
-export { getRecipeWithId } from './recipe';
+export { getRecipeWithId, updateServings } from './recipe';
