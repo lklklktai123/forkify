@@ -9,6 +9,7 @@ import {
   BiBookmarkPlus,
   BiSearchAlt2,
   BiLoader,
+  BiBookmark,
 } from 'react-icons/bi';
 import Ingredient from '../../components/Recipe/Ingredient/ingredient';
 import { connect } from 'react-redux';
@@ -16,14 +17,19 @@ import Error from '../../components/Layout/Error/Error';
 
 const RecipeContainer = props => {
   let { idRecipe } = useParams();
-  const { onGetRecipeWithId } = props;
+  const {
+    onGetRecipeWithId,
+    onSetBookMarked,
+    onSetBookMarkedWidthId,
+    onAddBookmark,
+    onRemoveBookmark,
+  } = props;
 
   useEffect(() => {
     if (idRecipe) {
       onGetRecipeWithId(idRecipe);
     }
-  }, [idRecipe, onGetRecipeWithId]);
-
+  }, [idRecipe, onGetRecipeWithId, onSetBookMarked, onSetBookMarkedWidthId]);
   const increaseServings = () => {
     props.onUpdateServings(props.dataRecipe.servings + 1);
   };
@@ -35,13 +41,61 @@ const RecipeContainer = props => {
       return <Error message="Serving cannot <= 0 !!!" />;
     }
   };
+  let arrRecipe = null;
+  if (props.dataRecipe)
+    arrRecipe = {
+      publisher: props.dataRecipe.publisher,
+      ingredients: props.dataRecipe.ingredients,
+      source_url: props.dataRecipe.source_url,
+      image_url: props.dataRecipe.image_url,
+      title: props.dataRecipe.title,
+      servings: props.dataRecipe.servings,
+      cookingTime: props.dataRecipe.cooking_time,
+      id: props.dataRecipe.id,
+    };
+  const bookmarkHandler = id => {
+    if (!props.dataRecipe.bookmarked) {
+      onSetBookMarked(true, id);
+      onSetBookMarkedWidthId(true);
+      onAddBookmark(arrRecipe);
+    } else {
+      onSetBookMarked(false, id);
+      onRemoveBookmark(props.dataRecipe.id);
+      onSetBookMarkedWidthId(false);
+    }
+  };
   let loadRecipe = (
     <div class="spinner">
       <BiLoader />
     </div>
   );
+
   if (!idRecipe) return <div></div>;
   if (props.error) loadRecipe = <Error message={props.messageError} />;
+
+  // let bookmarked = !props.bookmarks
+  //   ? null
+  //   : props.bookmarks.filter(value => value.id === props.dataRecipe.id);
+  // console.log(bookmarked);
+  let bookmarked = false;
+  let bookmarks = !props.bookmarks ? null : props.bookmarks;
+  console.log(bookmarks);
+  if (bookmarks) {
+    for (const [key, value] of Object.entries(bookmarks)) {
+      if (key === 'id' && value === bookmarks.id) {
+        bookmarked = true;
+        break;
+      } else {
+        console.log('ccccccc');
+        bookmarked = false;
+      }
+    }
+  }
+
+  console.log(bookmarked);
+  // Object.values(bookmarked).filter(
+  //   value => value.id === PushSubscriptionOptions.dataRecipe.id
+  // );
   if (props.dataRecipe) {
     loadRecipe = (
       <React.Fragment>
@@ -90,8 +144,12 @@ const RecipeContainer = props => {
           <div className="recipe__user-generated">
             <BiUser className="" />
           </div>
-          <button className="btn--round">
-            <BiBookmarkPlus />
+          <button
+            className="btn--round btn--bookmark"
+            onClick={() => bookmarkHandler(props.dataRecipe.id)}
+          >
+            {}
+            {/* {bookmarked ? <BiBookmark /> : <BiBookmarkPlus />} */}
           </button>
         </div>
 
@@ -137,6 +195,7 @@ const mapStateToProps = state => {
     dataRecipe: state.recipe.recipe,
     error: state.recipe.error,
     messageError: state.recipe.messageError,
+    bookmarks: state.bookmark.bookmarks,
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -144,6 +203,12 @@ const mapDispatchToProps = dispatch => {
     onGetRecipeWithId: id => dispatch(actions.getRecipeWithId(id)),
     onUpdateServings: newServings =>
       dispatch(actions.updateServings(newServings)),
+    onSetBookMarked: (marked, id) =>
+      dispatch(actions.setBookmarked(marked, id)),
+    onAddBookmark: data => dispatch(actions.addBookmark(data)),
+    onRemoveBookmark: id => dispatch(actions.removeBookmarkWidhId(id)),
+    onSetBookMarkedWidthId: marked =>
+      dispatch(actions.setBookmarkedWidthId(marked)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeContainer);

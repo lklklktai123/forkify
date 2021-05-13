@@ -37,6 +37,11 @@ const updateServings = (state, action) => {
   newRecipe.servings = newServings;
   return updateObject(state, { recipe: newRecipe });
 };
+const setBookmarked = (state, action) => {
+  const newRecipe = { ...state.recipe };
+  newRecipe.bookmarked = action.bookmarked;
+  return updateObject(state, { recipe: newRecipe });
+};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.FETCH_RECIPE_START:
@@ -47,6 +52,8 @@ const reducer = (state = initialState, action) => {
       return fetchRecipeSuccess(state, action);
     case actionType.LOAD_UPDATE_SERVINGS:
       return updateServings(state, action);
+    case actionType.SET_BOOMARKED:
+      return setBookmarked(state, action);
     default:
       return state;
   }

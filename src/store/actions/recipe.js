@@ -41,3 +41,9 @@ export const updateServings = newServings => {
     newServings: newServings,
   };
 };
+export const setBookmarkedWidthId = marked => {
+  return {
+    type: actionTypes.SET_BOOMARKED,
+    bookmarked: marked,
+  };
+};

@@ -38,6 +38,13 @@ export const setCurrentPage = numPage => {
     currentPage: numPage,
   };
 };
+export const setBookmarked = (marked, idRecipe) => {
+  return {
+    type: actionTypes.SET_BOOMARKED,
+    bookmarked: marked,
+    id: idRecipe,
+  };
+};
 // export const getRecipeWithId = (id) => {
 //   return (dispatch) => {
 //     dispatch(fetchRecipeStart());

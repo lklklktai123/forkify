@@ -32,6 +32,13 @@ const setCurrentPage = (state, action) => {
     currentPage: action.currentPage,
   });
 };
+const setBookmarked = (state, action) => {
+  const newResultRecipes = [...state.resultRecipes];
+  newResultRecipes.forEach(value => {
+    if (value.id === action.id) value.bookmarked = action.bookmarked;
+  });
+  return updateObject(state, { resultRecipes: newResultRecipes });
+};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.FETCH_RESULT_RECIPE_START:
@@ -42,6 +49,8 @@ const reducer = (state = initialState, action) => {
       return fetchResultRecipeSuccess(state, action);
     case actionType.SET_CURRENT_PAGE:
       return setCurrentPage(state, action);
+    case actionType.SET_BOOMARKED:
+      return setBookmarked(state, action);
     default:
       return state;
   }

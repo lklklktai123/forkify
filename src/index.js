@@ -9,6 +9,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import recipeResultReducer from './store/reducer/resultRecipe';
 import recipeReducer from './store/reducer/recipe';
+import bookmarkReducer from './store/reducer/bookmark';
 import { BrowserRouter } from 'react-router-dom';
 const composeEnhancers =
   process.env.NODE_ENV === 'development'
@@ -17,6 +18,7 @@ const composeEnhancers =
 const rootReducer = combineReducers({
   resultRecipe: recipeResultReducer,
   recipe: recipeReducer,
+  bookmark: bookmarkReducer,
 });
 const store = createStore(
   rootReducer,

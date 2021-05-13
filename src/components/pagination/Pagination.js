@@ -60,7 +60,7 @@ const pagination = props => {
     loadPage = (
       <button
         class="btn--inline pagination__btn--prev"
-        onClick={() => onsetCurrentPage(curPage - 1)}
+        onClick={() => onsetCurrentPage(curPage + 1)}
       >
         <BiArrowToRight className="search__icon" />
         <span>Page {curPage + 1}</span>
