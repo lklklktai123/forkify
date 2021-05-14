@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './components/Header/header';
+import Header from '../src/containers/Header/header';
 import Recipe from './components/Recipe/recipe';
 import SearchResults from './components/SearchResults/searchResults';
 import Upload from './components/Upload/upload';

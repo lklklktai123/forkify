@@ -1,22 +1,17 @@
-import { updateObject } from '../../shared/utility';
+// import { updateObject } from '../../shared/utility';
 import * as actionType from '../actions/actionTypes';
 const initialState = {
   bookmarks: [],
+  loading: true,
 };
 
 const addBookmark = (state, action) => {
-  const a = [1, 2, 3, 4, 5];
-  const b = [...a, 4, 5, 6, 7];
-  console.log(b);
-  return updateObject(state, {
-    bookmarks: state.bookmarks.push(action.dataBookmark),
-  });
+  state.bookmarks.push(action.dataBookmark);
+  return state;
 };
 const removeBookmarkWidhId = (state, action) => {
-  const newBookMarks = [state.bookmarks].filter(
-    bookmark => bookmark.id !== action.id
-  );
-  return updateObject(state, { bookmarks: newBookMarks });
+  state.bookmarks = state.bookmarks.filter(value => value.id !== action.id);
+  return state;
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {

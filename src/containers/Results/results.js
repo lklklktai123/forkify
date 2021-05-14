@@ -2,7 +2,7 @@ import React from 'react';
 import { BiUser } from 'react-icons/bi';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { RES_PER_PAGE } from '../../../utilities/config';
+import { RES_PER_PAGE } from '../../utilities/config';
 
 const Results = props => {
   const getSearchResultPasge = (page = props.currentPage) => {

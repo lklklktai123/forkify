@@ -1,7 +1,7 @@
-@import "./scss/base.scss";
-@import "./scss/components.scss";
-@import "./components/Header/header.scss";
-@import "./components/SearchResults/searchResults.scss";
-@import "./components/SearchResults/results/results.scss";
-@import "./components/Recipe/recipe.scss";
-@import "./components//Upload/upload.scss";
+@import './scss/base.scss';
+@import './scss/components.scss';
+@import './containers/Header/header.scss';
+@import './components/SearchResults/searchResults.scss';
+@import './containers/Results/results.scss';
+@import './components/Recipe/recipe.scss';
+@import './components//Upload/upload.scss';

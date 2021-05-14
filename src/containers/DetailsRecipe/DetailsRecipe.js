@@ -13,14 +13,13 @@ import {
 } from 'react-icons/bi';
 import Ingredient from '../../components/Recipe/Ingredient/ingredient';
 import { connect } from 'react-redux';
-import Error from '../../components/Layout/Error/Error';
+import Error from '../../../src/components/Layout/Error/Error';
 
 const RecipeContainer = props => {
   let { idRecipe } = useParams();
   const {
     onGetRecipeWithId,
     onSetBookMarked,
-    onSetBookMarkedWidthId,
     onAddBookmark,
     onRemoveBookmark,
   } = props;
@@ -29,7 +28,7 @@ const RecipeContainer = props => {
     if (idRecipe) {
       onGetRecipeWithId(idRecipe);
     }
-  }, [idRecipe, onGetRecipeWithId, onSetBookMarked, onSetBookMarkedWidthId]);
+  }, [idRecipe, onGetRecipeWithId]);
   const increaseServings = () => {
     props.onUpdateServings(props.dataRecipe.servings + 1);
   };
@@ -41,27 +40,16 @@ const RecipeContainer = props => {
       return <Error message="Serving cannot <= 0 !!!" />;
     }
   };
-  let arrRecipe = null;
-  if (props.dataRecipe)
-    arrRecipe = {
-      publisher: props.dataRecipe.publisher,
-      ingredients: props.dataRecipe.ingredients,
-      source_url: props.dataRecipe.source_url,
-      image_url: props.dataRecipe.image_url,
-      title: props.dataRecipe.title,
-      servings: props.dataRecipe.servings,
-      cookingTime: props.dataRecipe.cooking_time,
-      id: props.dataRecipe.id,
-    };
+  const checkDataBookmark = id => {
+    return props.bookmarks.some(bookmark => bookmark.id === id);
+  };
   const bookmarkHandler = id => {
-    if (!props.dataRecipe.bookmarked) {
+    if (!checkDataBookmark(id)) {
+      onAddBookmark(props.dataRecipe);
       onSetBookMarked(true, id);
-      onSetBookMarkedWidthId(true);
-      onAddBookmark(arrRecipe);
     } else {
+      onRemoveBookmark(id);
       onSetBookMarked(false, id);
-      onRemoveBookmark(props.dataRecipe.id);
-      onSetBookMarkedWidthId(false);
     }
   };
   let loadRecipe = (
@@ -72,30 +60,6 @@ const RecipeContainer = props => {
 
   if (!idRecipe) return <div></div>;
   if (props.error) loadRecipe = <Error message={props.messageError} />;
-
-  // let bookmarked = !props.bookmarks
-  //   ? null
-  //   : props.bookmarks.filter(value => value.id === props.dataRecipe.id);
-  // console.log(bookmarked);
-  let bookmarked = false;
-  let bookmarks = !props.bookmarks ? null : props.bookmarks;
-  console.log(bookmarks);
-  if (bookmarks) {
-    for (const [key, value] of Object.entries(bookmarks)) {
-      if (key === 'id' && value === bookmarks.id) {
-        bookmarked = true;
-        break;
-      } else {
-        console.log('ccccccc');
-        bookmarked = false;
-      }
-    }
-  }
-
-  console.log(bookmarked);
-  // Object.values(bookmarked).filter(
-  //   value => value.id === PushSubscriptionOptions.dataRecipe.id
-  // );
   if (props.dataRecipe) {
     loadRecipe = (
       <React.Fragment>
@@ -148,8 +112,11 @@ const RecipeContainer = props => {
             className="btn--round btn--bookmark"
             onClick={() => bookmarkHandler(props.dataRecipe.id)}
           >
-            {}
-            {/* {bookmarked ? <BiBookmark /> : <BiBookmarkPlus />} */}
+            {checkDataBookmark(props.dataRecipe.id) ? (
+              <BiBookmark />
+            ) : (
+              <BiBookmarkPlus />
+            )}
           </button>
         </div>
 

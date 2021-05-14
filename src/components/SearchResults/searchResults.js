@@ -1,5 +1,5 @@
 import Pagination from '../pagination/Pagination';
-import Results from './results/results';
+import Results from '../../containers/Results/results';
 
 const searchResults = props => {
   return (

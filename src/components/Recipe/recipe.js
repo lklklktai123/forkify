@@ -1,5 +1,5 @@
 import { BiSmile } from 'react-icons/bi';
-import RecipeContainer from '../../containers/RecipeContainer/RecipeContainer';
+import RecipeContainer from '../../containers/DetailsRecipe/DetailsRecipe';
 import { Route, Switch } from 'react-router-dom';
 const recipe = () => {
   return (

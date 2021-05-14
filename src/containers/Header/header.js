@@ -1,9 +1,10 @@
-import images from '../Layout/exportImage';
+import images from '../../components/Layout/exportImage';
 import { IoIosSearch } from 'react-icons/io';
-import { BiSmile, BiMessageEdit, BiBookmark } from 'react-icons/bi';
+import { BiMessageEdit, BiBookmark } from 'react-icons/bi';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import { useState, useEffect } from 'react';
+import Bookmark from './Bookmark/Bookmark';
 const Header = props => {
   const [search, setSearch] = useState('');
   const { onSearchResultsRecipe } = props;
@@ -47,30 +48,7 @@ const Header = props => {
               <BiBookmark className="nav__icon" />
               <span>Bookmarks</span>
             </button>
-            <div className="bookmarks">
-              <ul className="bookmarks__list">
-                <div className="message">
-                  <div>
-                    <BiSmile className="bookmarks__icon" />
-                  </div>
-                  <p>No bookmarks yet. Find a nice recipe and bookmark it :)</p>
-                </div>
-
-                {/* <li class="preview">
-            <a class="preview__link" href="#23456">
-              <figure class="preview__fig">
-                <img src="src/img/test-1.jpg" alt="Test" />
-              </figure>
-              <div class="preview__data">
-                <h4 class="preview__name">
-                  Pasta with Tomato Cream ...
-                </h4>
-                <p class="preview__publisher">The Pioneer Woman</p>
-              </div>
-            </a>
-          </li>  */}
-              </ul>
-            </div>
+            <Bookmark dataBookmarks={props.bookmarks} />
           </li>
         </ul>
       </nav>
@@ -83,4 +61,10 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.searchResultsRecipe(search)),
   };
 };
-export default connect(null, mapDispatchToProps)(Header);
+const mapStateToProps = state => {
+  return {
+    bookmarks: state.bookmark.bookmarks,
+    dataRecipe: state.recipe.recipe,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
