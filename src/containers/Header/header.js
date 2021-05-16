@@ -10,11 +10,13 @@ const Header = props => {
   const { onSearchResultsRecipe } = props;
 
   useEffect(() => {
+    // persitsBookmarks();
     const timer = setTimeout(function () {
       onSearchResultsRecipe(search);
     }, 1000);
     return () => clearTimeout(timer);
   }, [search, onSearchResultsRecipe]);
+  let dataBookmarks = JSON.parse(localStorage.getItem('bookmarks'));
   return (
     <header className="header">
       <img src={images.logo} alt="Logo" className="header__logo" />
@@ -48,7 +50,7 @@ const Header = props => {
               <BiBookmark className="nav__icon" />
               <span>Bookmarks</span>
             </button>
-            <Bookmark dataBookmarks={props.bookmarks} />
+            <Bookmark dataBookmarks={dataBookmarks} />
           </li>
         </ul>
       </nav>

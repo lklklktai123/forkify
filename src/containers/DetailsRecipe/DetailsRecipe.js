@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoIosClock } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
 import * as actions from '../../store/actions/index';
@@ -19,7 +19,8 @@ const RecipeContainer = props => {
   let { idRecipe } = useParams();
   const {
     onGetRecipeWithId,
-    onSetBookMarked,
+    // onSetBookMarked,
+    onSetBookMarkedWidthId,
     onAddBookmark,
     onRemoveBookmark,
   } = props;
@@ -29,6 +30,7 @@ const RecipeContainer = props => {
       onGetRecipeWithId(idRecipe);
     }
   }, [idRecipe, onGetRecipeWithId]);
+
   const increaseServings = () => {
     props.onUpdateServings(props.dataRecipe.servings + 1);
   };
@@ -40,16 +42,37 @@ const RecipeContainer = props => {
       return <Error message="Serving cannot <= 0 !!!" />;
     }
   };
-  const checkDataBookmark = id => {
-    return props.bookmarks.some(bookmark => bookmark.id === id);
+  const setStorageBookmarks = bookmarks => {
+    console.log(bookmarks);
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
   };
+  const getStorageBookmarks = () => {
+    return localStorage.getItem('bookmarks');
+  };
+  // const checkDataBookmark = (bookmarks, id) => {
+  //   return bookmarks.some(bookmark => bookmark.id === id);
+  // };
+  let bookmarks = null;
   const bookmarkHandler = id => {
-    if (!checkDataBookmark(id)) {
-      onAddBookmark(props.dataRecipe);
-      onSetBookMarked(true, id);
-    } else {
-      onRemoveBookmark(id);
-      onSetBookMarked(false, id);
+    if (!getStorageBookmarks()) {
+      setStorageBookmarks([props.dataRecipe]);
+      onSetBookMarkedWidthId(true);
+    } else if (getStorageBookmarks()) {
+      bookmarks = JSON.parse(getStorageBookmarks());
+      if (!bookmarks.some(bookmark => bookmark.id === props.dataRecipe.id)) {
+        console.log('aaaaa');
+        bookmarks = JSON.parse(getStorageBookmarks());
+        bookmarks.push(props.dataRecipe);
+        setStorageBookmarks(bookmarks);
+        console.log(bookmarks);
+      } else {
+        console.log('bbbbbb');
+        bookmarks = JSON.parse(getStorageBookmarks());
+        const newBookmarks = bookmarks.filter(
+          bookmark => bookmark.id !== props.dataRecipe.id
+        );
+        setStorageBookmarks(newBookmarks);
+      }
     }
   };
   let loadRecipe = (
@@ -112,11 +135,11 @@ const RecipeContainer = props => {
             className="btn--round btn--bookmark"
             onClick={() => bookmarkHandler(props.dataRecipe.id)}
           >
-            {checkDataBookmark(props.dataRecipe.id) ? (
+            {/* {checkDataBookmark(props.dataRecipe.id) ? (
               <BiBookmark />
             ) : (
               <BiBookmarkPlus />
-            )}
+            )} */}
           </button>
         </div>
 
@@ -170,8 +193,8 @@ const mapDispatchToProps = dispatch => {
     onGetRecipeWithId: id => dispatch(actions.getRecipeWithId(id)),
     onUpdateServings: newServings =>
       dispatch(actions.updateServings(newServings)),
-    onSetBookMarked: (marked, id) =>
-      dispatch(actions.setBookmarked(marked, id)),
+    // onSetBookMarked: (marked, id) =>
+    //   dispatch(actions.setBookmarked(marked, id)),
     onAddBookmark: data => dispatch(actions.addBookmark(data)),
     onRemoveBookmark: id => dispatch(actions.removeBookmarkWidhId(id)),
     onSetBookMarkedWidthId: marked =>

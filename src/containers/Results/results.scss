@@ -7,6 +7,10 @@
     border-right: 1px solid #fff;
     text-decoration: none;
   }
+  a:hover {
+    background-color: $color-grey-light-1;
+    transform: translateY(-2px);
+  }
   &__link {
     &:link,
     &:visited {
@@ -38,7 +42,7 @@
     backface-visibility: hidden;
 
     &::before {
-      content: "";
+      content: '';
       display: block;
       height: 100%;
       width: 100%;

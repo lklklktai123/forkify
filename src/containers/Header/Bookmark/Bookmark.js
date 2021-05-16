@@ -1,9 +1,14 @@
 import { BiSmile } from 'react-icons/bi';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
-let bookmark = props => {
+let Bookmark = props => {
   let dataBook = null;
-  console.log(props.dataBookmarks);
+  // useEffect(() => {
+  //   persitsBookmarks();
+  // }, []);
+
   if (!props.dataBookmarks || props.dataBookmarks.length <= 0) {
     dataBook = (
       <div className="message">
@@ -16,7 +21,10 @@ let bookmark = props => {
   } else {
     dataBook = props.dataBookmarks.map(bookmark => (
       <li class="preview" key={bookmark.id}>
-        <a class="preview__link" href={`#${bookmark.id}`}>
+        <Link
+          to={`/recipe-container/${bookmark.id}`}
+          activeClassName="preview__link preview__link--active"
+        >
           <figure class="preview__fig">
             <img src={bookmark.image_url} alt="Test" />
           </figure>
@@ -24,7 +32,7 @@ let bookmark = props => {
             <h4 class="preview__name">{bookmark.title}</h4>
             <p class="preview__publisher">{bookmark.publisher}</p>
           </div>
-        </a>
+        </Link>
       </li>
     ));
   }
@@ -35,4 +43,4 @@ let bookmark = props => {
     </div>
   );
 };
-export default bookmark;
+export default Bookmark;

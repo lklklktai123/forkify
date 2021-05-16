@@ -1,8 +1,4 @@
-export {
-  searchResultsRecipe,
-  setCurrentPage,
-  setBookmarked,
-} from './resultRecipe';
+export { searchResultsRecipe, setCurrentPage } from './resultRecipe';
 
 export {
   getRecipeWithId,
