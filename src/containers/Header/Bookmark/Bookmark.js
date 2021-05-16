@@ -8,7 +8,7 @@ let Bookmark = props => {
   // useEffect(() => {
   //   persitsBookmarks();
   // }, []);
-
+  console.log(props.dataBookmarks);
   if (!props.dataBookmarks || props.dataBookmarks.length <= 0) {
     dataBook = (
       <div className="message">

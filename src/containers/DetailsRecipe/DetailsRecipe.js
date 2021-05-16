@@ -24,7 +24,6 @@ const RecipeContainer = props => {
     onAddBookmark,
     onRemoveBookmark,
   } = props;
-
   useEffect(() => {
     if (idRecipe) {
       onGetRecipeWithId(idRecipe);
@@ -53,25 +52,37 @@ const RecipeContainer = props => {
   //   return bookmarks.some(bookmark => bookmark.id === id);
   // };
   let bookmarks = null;
+  const setMarKed = (bookmarks, id) => {
+    let dataSetMarked = bookmarks ? (
+      bookmarks.some(bookmark => bookmark.id === id) ? (
+        <BiBookmark />
+      ) : (
+        <BiBookmarkPlus />
+      )
+    ) : (
+      <BiBookmarkPlus />
+    );
+    return dataSetMarked;
+  };
   const bookmarkHandler = id => {
     if (!getStorageBookmarks()) {
       setStorageBookmarks([props.dataRecipe]);
       onSetBookMarkedWidthId(true);
+      // setMarKed();
     } else if (getStorageBookmarks()) {
       bookmarks = JSON.parse(getStorageBookmarks());
-      if (!bookmarks.some(bookmark => bookmark.id === props.dataRecipe.id)) {
-        console.log('aaaaa');
+      if (!bookmarks.some(bookmark => bookmark.id === id)) {
         bookmarks = JSON.parse(getStorageBookmarks());
         bookmarks.push(props.dataRecipe);
+        onSetBookMarkedWidthId(true);
         setStorageBookmarks(bookmarks);
-        console.log(bookmarks);
+        // setMarKed();
       } else {
-        console.log('bbbbbb');
         bookmarks = JSON.parse(getStorageBookmarks());
-        const newBookmarks = bookmarks.filter(
-          bookmark => bookmark.id !== props.dataRecipe.id
-        );
+        const newBookmarks = bookmarks.filter(bookmark => bookmark.id !== id);
+        onSetBookMarkedWidthId(false);
         setStorageBookmarks(newBookmarks);
+        // setMarKed();
       }
     }
   };
@@ -80,7 +91,6 @@ const RecipeContainer = props => {
       <BiLoader />
     </div>
   );
-
   if (!idRecipe) return <div></div>;
   if (props.error) loadRecipe = <Error message={props.messageError} />;
   if (props.dataRecipe) {
@@ -135,11 +145,7 @@ const RecipeContainer = props => {
             className="btn--round btn--bookmark"
             onClick={() => bookmarkHandler(props.dataRecipe.id)}
           >
-            {/* {checkDataBookmark(props.dataRecipe.id) ? (
-              <BiBookmark />
-            ) : (
-              <BiBookmarkPlus />
-            )} */}
+            {setMarKed(JSON.parse(getStorageBookmarks()), props.dataRecipe.id)}
           </button>
         </div>
 
