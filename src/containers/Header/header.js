@@ -8,7 +8,6 @@ import Bookmark from './Bookmark/Bookmark';
 const Header = props => {
   const [search, setSearch] = useState('');
   const { onSearchResultsRecipe } = props;
-
   useEffect(() => {
     // persitsBookmarks();
     const timer = setTimeout(function () {
@@ -16,6 +15,13 @@ const Header = props => {
     }, 1000);
     return () => clearTimeout(timer);
   }, [search, onSearchResultsRecipe]);
+
+  const addHandlerShowWindow = () => {
+    const window = document.querySelector('.add-recipe-window');
+    const overlay = document.querySelector('.overlay');
+    overlay.classList.toggle('hidden');
+    window.classList.toggle('hidden');
+  };
   let dataBookmarks = JSON.parse(localStorage.getItem('bookmarks'));
   return (
     <header className="header">
@@ -40,7 +46,10 @@ const Header = props => {
       <nav className="nav">
         <ul className="nav__list">
           <li className="nav__item">
-            <button className="nav__btn nav__btn--add-recipe">
+            <button
+              className="nav__btn nav__btn--add-recipe"
+              onClick={addHandlerShowWindow}
+            >
               <BiMessageEdit className="nav__icon" />
               <span>Add recipe</span>
             </button>

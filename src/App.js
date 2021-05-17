@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../src/containers/Header/header';
 import Recipe from './components/Recipe/recipe';
 import SearchResults from './components/SearchResults/searchResults';
-import Upload from './components/Upload/upload';
+import Upload from './containers/Upload/upload';
 import { Route, Redirect } from 'react-router-dom';
 
 const App = () => {
@@ -23,7 +23,6 @@ const App = () => {
         <SearchResults />
         <Recipe />
       </div>
-      <div className="overlay hidden"></div>
       <Upload />
     </React.Fragment>
   );
