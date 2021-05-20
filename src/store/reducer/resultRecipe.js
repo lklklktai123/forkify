@@ -1,5 +1,5 @@
 import * as actionType from '../actions/actionTypes';
-import { updateObject } from '../../shared/utility';
+import { updateObject } from '../../shared/utilities/utility';
 const initialState = {
   resultRecipes: [],
   loading: false,

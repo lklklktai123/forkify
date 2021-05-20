@@ -1,5 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
+import { API_KEY } from '../../shared/utilities/config';
+
 export const fetchResultRecipeStart = () => {
   return {
     type: actionTypes.FETCH_RESULT_RECIPE_START,
@@ -21,7 +23,7 @@ export const searchResultsRecipe = search => {
   return dispatch => {
     dispatch(fetchResultRecipeStart());
     axios
-      .get(`recipes?search=${search}&key=fcf0a206-2e45-4644-a6a5-7fac29acab6c`)
+      .get(`recipes?search=${search}&key=${API_KEY}`)
       .then(response => {
         dispatch(fetchResultRecipeSuccess(response.data.data.recipes));
       })

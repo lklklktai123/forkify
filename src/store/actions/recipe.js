@@ -1,7 +1,8 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios';
-import timeout from '../../utilities/CheckRuntimeApi';
-import { TIMEOUT_SEC } from '../../utilities/config';
+import timeout from '../../shared/utilities/CheckRuntimeApi';
+import { TIMEOUT_SEC, API_KEY } from '../../shared/utilities/config';
+
 export const fetchRecipeStart = () => {
   return {
     type: actionTypes.FETCH_RECIPE_START,
@@ -45,5 +46,40 @@ export const setBookmarkedWidthId = marked => {
   return {
     type: actionTypes.SET_BOOMARKED,
     bookmarked: marked,
+  };
+};
+
+export const addNewRecipeStart = () => {
+  return {
+    type: actionTypes.ADD_NEW_RECIPE_START,
+  };
+};
+
+export const addNewRecipeFail = error => {
+  return {
+    type: actionTypes.ADD_NEW_RECIPE_FAIL,
+    messageError: error,
+  };
+};
+
+export const addNewRecipeSuccess = recipe => {
+  return {
+    type: actionTypes.ADD_NEW_RECIPE_SUCCESS,
+    recipe: recipe,
+  };
+};
+
+export const addRecipe = recipe => {
+  return dispatch => {
+    dispatch(addNewRecipeStart());
+    axios
+      .post(`recipes?key=${API_KEY}`, recipe)
+      .then(response => {
+        dispatch(addNewRecipeSuccess(response.data.data.recipe));
+      })
+      .catch(err => {
+        console.log(err.message);
+        dispatch(addNewRecipeFail(err.message));
+      });
   };
 };

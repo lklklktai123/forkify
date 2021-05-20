@@ -1,13 +1,14 @@
 import * as actionType from '../actions/actionTypes';
-import { updateObject } from '../../shared/utility';
+import { updateObject } from '../../shared/utilities/utility';
 const initialState = {
   recipe: null,
   loading: false,
   error: false,
   messageError: '',
+  status: false,
 };
 const fetchRecipeStart = state => {
-  return updateObject(state, { loading: true });
+  return updateObject(state, { loading: true, status: false });
 };
 
 const fetchRecipeFail = (state, action) => {
@@ -16,6 +17,7 @@ const fetchRecipeFail = (state, action) => {
     loading: false,
     error: true,
     messageError: action.messageError,
+    status: false,
   });
 };
 
@@ -24,6 +26,29 @@ const fetchRecipeSuccess = (state, action) => {
     recipe: action.recipe,
     loading: false,
     error: false,
+    status: false,
+  });
+};
+
+const addNewRecipeStart = (state, action) => {
+  return updateObject(state, { loading: true, status: false });
+};
+
+const addNewRecipeFail = (state, action) => {
+  return updateObject(state, {
+    error: true,
+    loading: false,
+    messageError: action.messageError,
+    status: false,
+  });
+};
+
+const addNewRecipeSuccess = (state, action) => {
+  return updateObject(state, {
+    loading: false,
+    error: false,
+    status: true,
+    recipe: action.recipe,
   });
 };
 const updateServings = (state, action) => {
@@ -54,6 +79,12 @@ const reducer = (state = initialState, action) => {
       return updateServings(state, action);
     case actionType.SET_BOOMARKED:
       return setBookmarked(state, action);
+    case actionType.ADD_NEW_RECIPE_START:
+      return addNewRecipeStart(state, action);
+    case actionType.ADD_NEW_RECIPE_FAIL:
+      return addNewRecipeFail(state, action);
+    case actionType.ADD_NEW_RECIPE_SUCCESS:
+      return addNewRecipeSuccess(state, action);
     default:
       return state;
   }

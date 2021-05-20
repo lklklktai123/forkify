@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { URL } from './utilities/config';
+import { URL } from './shared/utilities/config';
 
 const instance = axios.create({
   baseURL: URL,

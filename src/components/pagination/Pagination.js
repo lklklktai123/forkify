@@ -1,5 +1,5 @@
 import { BiArrowToLeft, BiArrowToRight } from 'react-icons/bi';
-import { RES_PER_PAGE } from '../../utilities/config';
+import { RES_PER_PAGE } from '../../shared/utilities/config';
 import { connect } from 'react-redux';
 import React from 'react';
 import * as actions from '../../store/actions/index';

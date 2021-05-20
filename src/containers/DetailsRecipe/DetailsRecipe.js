@@ -3,6 +3,10 @@ import { IoIosClock } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
 import * as actions from '../../store/actions/index';
 import {
+  setStorageBookmarks,
+  getStorageBookmarks,
+} from '../../shared/utilities/helper';
+import {
   BiUser,
   BiMinusCircle,
   BiPlusCircle,
@@ -17,13 +21,7 @@ import Error from '../../../src/components/Layout/Error/Error';
 
 const RecipeContainer = props => {
   let { idRecipe } = useParams();
-  const {
-    onGetRecipeWithId,
-    // onSetBookMarked,
-    onSetBookMarkedWidthId,
-    onAddBookmark,
-    onRemoveBookmark,
-  } = props;
+  const { onGetRecipeWithId, onSetBookMarkedWidthId, dataRecipe } = props;
   useEffect(() => {
     if (idRecipe) {
       onGetRecipeWithId(idRecipe);
@@ -31,26 +29,16 @@ const RecipeContainer = props => {
   }, [idRecipe, onGetRecipeWithId]);
 
   const increaseServings = () => {
-    props.onUpdateServings(props.dataRecipe.servings + 1);
+    props.onUpdateServings(dataRecipe.servings + 1);
   };
   const decreaseServings = () => {
-    if (props.dataRecipe.servings - 1) {
-      props.onUpdateServings(props.dataRecipe.servings - 1);
+    if (dataRecipe.servings - 1) {
+      props.onUpdateServings(dataRecipe.servings - 1);
     } else {
       alert('Serving cannot <= 0 !!!"');
       return <Error message="Serving cannot <= 0 !!!" />;
     }
   };
-  const setStorageBookmarks = bookmarks => {
-    console.log(bookmarks);
-    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-  };
-  const getStorageBookmarks = () => {
-    return localStorage.getItem('bookmarks');
-  };
-  // const checkDataBookmark = (bookmarks, id) => {
-  //   return bookmarks.some(bookmark => bookmark.id === id);
-  // };
   let bookmarks = null;
   const setMarKed = (bookmarks, id) => {
     let dataSetMarked = bookmarks ? (
@@ -64,25 +52,22 @@ const RecipeContainer = props => {
     );
     return dataSetMarked;
   };
+  let userKey = document.querySelector('.recipe__user-generated');
+  console.log(dataRecipe);
   const bookmarkHandler = id => {
     if (!getStorageBookmarks()) {
-      setStorageBookmarks([props.dataRecipe]);
+      setStorageBookmarks([dataRecipe]);
       onSetBookMarkedWidthId(true);
-      // setMarKed();
     } else if (getStorageBookmarks()) {
       bookmarks = JSON.parse(getStorageBookmarks());
       if (!bookmarks.some(bookmark => bookmark.id === id)) {
-        bookmarks = JSON.parse(getStorageBookmarks());
-        bookmarks.push(props.dataRecipe);
+        bookmarks.push(dataRecipe);
         onSetBookMarkedWidthId(true);
         setStorageBookmarks(bookmarks);
-        // setMarKed();
       } else {
-        bookmarks = JSON.parse(getStorageBookmarks());
         const newBookmarks = bookmarks.filter(bookmark => bookmark.id !== id);
         onSetBookMarkedWidthId(false);
         setStorageBookmarks(newBookmarks);
-        // setMarKed();
       }
     }
   };
@@ -91,15 +76,20 @@ const RecipeContainer = props => {
       <BiLoader />
     </div>
   );
+  const showKey = dataRecipe
+    ? dataRecipe.key
+      ? 'recipe__user-generated'
+      : 'recipe__user-generated hidden'
+    : 'recipe__user-generated hidden';
   if (!idRecipe) return <div></div>;
   if (props.error) loadRecipe = <Error message={props.messageError} />;
-  if (props.dataRecipe) {
+  if (dataRecipe) {
     loadRecipe = (
       <React.Fragment>
         <figure class="recipe__fig">
           <img
-            src={props.dataRecipe.image_url}
-            alt={props.dataRecipe.title}
+            src={dataRecipe.image_url}
+            alt={dataRecipe.title}
             className="recipe__img"
           />
           <h1 className="recipe__title">
@@ -111,14 +101,14 @@ const RecipeContainer = props => {
           <div className="recipe__info">
             <IoIosClock className="recipe__info-icon" />
             <span className="recipe__info-data recipe__info-data--minutes">
-              {props.dataRecipe.cookingTime}
+              {dataRecipe.cookingTime}
             </span>
             <span className="recipe__info-text">minutes</span>
           </div>
           <div className="recipe__info">
             <BiUser className="recipe__info-icon" />
             <span className="recipe__info-data recipe__info-data--people">
-              {props.dataRecipe.servings}
+              {dataRecipe.servings}
             </span>
             <span className="recipe__info-text">servings</span>
 
@@ -137,22 +127,21 @@ const RecipeContainer = props => {
               </button>
             </div>
           </div>
-
-          <div className="recipe__user-generated">
+          <div className={showKey}>
             <BiUser className="" />
           </div>
           <button
             className="btn--round btn--bookmark"
-            onClick={() => bookmarkHandler(props.dataRecipe.id)}
+            onClick={() => bookmarkHandler(dataRecipe.id)}
           >
-            {setMarKed(JSON.parse(getStorageBookmarks()), props.dataRecipe.id)}
+            {setMarKed(JSON.parse(getStorageBookmarks()), dataRecipe.id)}
           </button>
         </div>
 
         <div className="recipe__ingredients">
           <h2 className="heading--2">Recipe ingredients</h2>
           <ul className="recipe__ingredient-list">
-            {props.dataRecipe.ingredients.map((ing, index) => (
+            {dataRecipe.ingredients.map((ing, index) => (
               <Ingredient
                 key={`Ingredient${index}`}
                 quantity={ing.quantity}
@@ -167,15 +156,10 @@ const RecipeContainer = props => {
           <h2 className="heading--2">How to cook it</h2>
           <p className="recipe__directions-text">
             This recipe was carefully designed and tested by
-            <span className="recipe__publisher">
-              {props.dataRecipe.publisher}
-            </span>
-            . Please check out directions at their website.
+            <span className="recipe__publisher">{dataRecipe.publisher}</span>.
+            Please check out directions at their website.
           </p>
-          <a
-            className="btn--small recipe__btn"
-            href={props.dataRecipe.source_url}
-          >
+          <a className="btn--small recipe__btn" href={dataRecipe.source_url}>
             <span>Directions</span>
             <BiSearchAlt2 className="search__icon" />
           </a>
@@ -199,10 +183,6 @@ const mapDispatchToProps = dispatch => {
     onGetRecipeWithId: id => dispatch(actions.getRecipeWithId(id)),
     onUpdateServings: newServings =>
       dispatch(actions.updateServings(newServings)),
-    // onSetBookMarked: (marked, id) =>
-    //   dispatch(actions.setBookmarked(marked, id)),
-    onAddBookmark: data => dispatch(actions.addBookmark(data)),
-    onRemoveBookmark: id => dispatch(actions.removeBookmarkWidhId(id)),
     onSetBookMarkedWidthId: marked =>
       dispatch(actions.setBookmarkedWidthId(marked)),
   };

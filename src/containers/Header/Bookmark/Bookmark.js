@@ -1,14 +1,9 @@
 import { BiSmile } from 'react-icons/bi';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
 
 let Bookmark = props => {
   let dataBook = null;
-  // useEffect(() => {
-  //   persitsBookmarks();
-  // }, []);
-  console.log(props.dataBookmarks);
   if (!props.dataBookmarks || props.dataBookmarks.length <= 0) {
     dataBook = (
       <div className="message">
