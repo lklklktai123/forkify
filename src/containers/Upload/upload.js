@@ -55,15 +55,11 @@ const Upload = props => {
   };
   let dataUpload = null;
   let bookmarks = null;
-  console.log(1);
   if (status && dataRecipe.id) {
-    console.log(2);
     console.log(getStorageBookmarks(), dataRecipe);
     if (!getStorageBookmarks()) {
-      console.log('co vo day 0');
       setStorageBookmarks([dataRecipe]);
     } else if (getStorageBookmarks()) {
-      console.log('co vay day 1');
       bookmarks = JSON.parse(getStorageBookmarks());
       if (!bookmarks.some(bookmark => bookmark.id === dataRecipe.id)) {
         bookmarks.push(dataRecipe);

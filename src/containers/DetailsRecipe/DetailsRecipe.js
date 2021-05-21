@@ -53,7 +53,6 @@ const RecipeContainer = props => {
     return dataSetMarked;
   };
   let userKey = document.querySelector('.recipe__user-generated');
-  console.log(dataRecipe);
   const bookmarkHandler = id => {
     if (!getStorageBookmarks()) {
       setStorageBookmarks([dataRecipe]);
