@@ -5,6 +5,7 @@ export {
   updateServings,
   setBookmarkedWidthId,
   addRecipe,
+  fetchRecipeFail,
 } from './recipe';
 
 export { addBookmark, removeBookmarkWidhId } from './bookmark';

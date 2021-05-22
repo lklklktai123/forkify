@@ -6,6 +6,7 @@ import {
   getStorageBookmarks,
   setStorageBookmarks,
 } from '../../shared/utilities/helper';
+import Error from '../../components/Layout/Error/Error';
 const Upload = props => {
   const { uploadValue, setUploadValue } = useState('');
   const { status, dataRecipe } = props;
@@ -24,7 +25,7 @@ const Upload = props => {
       .filter(data => data[0].startsWith('ingredient') && data[1] !== '')
       .map(ing => {
         const ingArr = ing[1].replaceAll(' ', '').split(',');
-        if (ingArr.length !== 3) throw new Error('Error format Ingredient');
+        if (ingArr.length !== 3) alert('Error format Ingredient');
         const [quantity, unit, description] = ingArr;
         return {
           quantity: quantity ? +quantity : null,
@@ -48,7 +49,6 @@ const Upload = props => {
         recipe.servings = +value[1];
       }
     }
-    console.log(JSON.stringify(recipe));
     if (recipe) {
       props.onAddRecipe(recipe);
     }
@@ -71,6 +71,7 @@ const Upload = props => {
     dataUpload = (
       <React.Fragment>
         <div className="overlay hidden" onClick={addHandlerHideWindow}></div>
+        {/* <Error message="aaaaaaaaaaaaaaaaaaaa" /> */}
         <div className="add-recipe-window hidden">
           <button className="btn--close-modal" onClick={addHandlerHideWindow}>
             &times;
@@ -132,7 +133,8 @@ const Upload = props => {
               <h3 className="upload__heading">Ingredients</h3>
               <label>Ingredient 1</label>
               <input
-                value="0.5,kg,Rice"
+                value={uploadValue}
+                onchange={event => setUploadValue(event.target.value)}
                 type="text"
                 required
                 name="ingredient-1"
@@ -140,32 +142,40 @@ const Upload = props => {
               />
               <label>Ingredient 2</label>
               <input
-                value="1,,Avocado"
+                value={uploadValue}
+                onchange={event => setUploadValue(event.target.value)}
                 type="text"
                 name="ingredient-2"
                 placeholder="Format: 'Quantity,Unit,Description'"
               />
               <label>Ingredient 3</label>
               <input
-                value=",,salt"
+                value={uploadValue}
+                onchange={event => setUploadValue(event.target.value)}
                 type="text"
                 name="ingredient-3"
                 placeholder="Format: 'Quantity,Unit,Description'"
               />
               <label>Ingredient 4</label>
               <input
+                value={uploadValue}
+                onchange={event => setUploadValue(event.target.value)}
                 type="text"
                 name="ingredient-4"
                 placeholder="Format: 'Quantity,Unit,Description'"
               />
               <label>Ingredient 5</label>
               <input
+                value={uploadValue}
+                onchange={event => setUploadValue(event.target.value)}
                 type="text"
                 name="ingredient-5"
                 placeholder="Format: 'Quantity,Unit,Description'"
               />
               <label>Ingredient 6</label>
               <input
+                value={uploadValue}
+                onchange={event => setUploadValue(event.target.value)}
                 type="text"
                 name="ingredient-6"
                 placeholder="Format: 'Quantity,Unit,Description'"
@@ -190,10 +200,15 @@ const mapStateToProps = state => {
   return {
     dataRecipe: state.recipe.recipe,
     status: state.recipe.status,
+    error: state.recipe.error,
+    message: state.recipe.messageError,
   };
 };
 const mapDispatchToProps = dispatch => {
-  return { onAddRecipe: recipe => dispatch(actions.addRecipe(recipe)) };
+  return {
+    onAddRecipe: recipe => dispatch(actions.addRecipe(recipe)),
+    onFetchRecipeFail: message => dispatch(actions.fetchRecipeFail(message)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Upload);
