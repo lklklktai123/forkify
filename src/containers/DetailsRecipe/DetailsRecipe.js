@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { IoIosClock } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
 import * as actions from '../../store/actions/index';
@@ -52,7 +52,7 @@ const RecipeContainer = props => {
     );
     return dataSetMarked;
   };
-  let userKey = document.querySelector('.recipe__user-generated');
+  // let userKey = document.querySelector('.recipe__user-generated');
   const bookmarkHandler = id => {
     if (!getStorageBookmarks()) {
       setStorageBookmarks([dataRecipe]);

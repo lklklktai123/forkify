@@ -6,7 +6,6 @@ import {
   getStorageBookmarks,
   setStorageBookmarks,
 } from '../../shared/utilities/helper';
-import Error from '../../components/Layout/Error/Error';
 const Upload = props => {
   const { uploadValue, setUploadValue } = useState('');
   const { status, dataRecipe } = props;
